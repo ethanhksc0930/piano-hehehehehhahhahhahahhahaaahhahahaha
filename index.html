@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cool Synth thingy</title>
+    <title>Cool Synth thingy - Pro Edition</title>
     <style>
         :root {
             --bg: #121214;
             --panel: #1c1c22;
-            --accent: #ff0055; /* Hot Pink */
-            --accent-dim: #55001c;
+            --accent: #ff0055; /* Hot Pink Default */
             --text: #e0e0e0;
             --knob-bg: #2a2a35;
             --on: #00ff00;
@@ -34,7 +33,7 @@
             border-radius: 10px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
             border: 1px solid #333;
-            width: 900px;
+            width: 950px; /* Widened slightly for the extra master controls */
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -42,10 +41,10 @@
 
         /* --- VISUALIZER --- */
         .scope-container {
-            background: #000;
+            background: #000; /* Stays Black */
             border: 1px solid #444;
             border-radius: 6px;
-            height: 100px;
+            height: 120px;
             position: relative;
             overflow: hidden;
             box-shadow: inset 0 0 20px #000;
@@ -54,6 +53,7 @@
         .scope-overlay {
             position: absolute; top: 5px; left: 8px;
             font-family: monospace; font-size: 10px; color: var(--accent); opacity: 0.8;
+            pointer-events: none;
         }
 
         /* --- CONTROL PANEL --- */
@@ -91,7 +91,6 @@
             letter-spacing: 1px;
         }
 
-        /* Toggles */
         .toggle-btn {
             background: var(--off);
             border: none;
@@ -194,18 +193,9 @@
                     <option value="triangle">Triangle</option>
                 </select>
             </div>
-            <div class="param">
-                <label>Octave</label>
-                <input type="range" id="octave" min="-2" max="2" step="1" value="0">
-            </div>
-            <div class="param">
-                <label>Semitone</label>
-                <input type="range" id="semitone" min="-12" max="12" step="1" value="0">
-            </div>
-            <div class="param">
-                <label>Pitch</label>
-                <input type="range" id="detune" min="-50" max="50" value="0">
-            </div>
+            <div class="param"><label>Octave</label><input type="range" id="octave" min="-2" max="2" step="1" value="0"></div>
+            <div class="param"><label>Semitone</label><input type="range" id="semitone" min="-12" max="12" step="1" value="0"></div>
+            <div class="param"><label>Pitch</label><input type="range" id="detune" min="-50" max="50" value="0"></div>
         </div>
 
         <div class="module">
@@ -221,10 +211,7 @@
                     <option value="brown">Brown</option>
                 </select>
             </div>
-            <div class="param">
-                <label>Mix Level</label>
-                <input type="range" id="noiseLvl" min="0" max="0.5" step="0.01" value="0.1">
-            </div>
+            <div class="param"><label>Mix Level</label><input type="range" id="noiseLvl" min="0" max="0.5" step="0.01" value="0.1"></div>
         </div>
 
         <div class="module">
@@ -236,20 +223,11 @@
                     <option value="pitch">Osc Pitch</option>
                 </select>
             </div>
-            <div class="param">
-                <label>Speed (Hz)</label>
-                <input type="range" id="lfoSpeed" min="0.1" max="20" step="0.1" value="5">
-            </div>
-            <div class="param">
-                <label>Depth (Amt)</label>
-                <input type="range" id="lfoDepth" min="0" max="1000" step="10" value="0">
-            </div>
+            <div class="param"><label>Speed (Hz)</label><input type="range" id="lfoSpeed" min="0.1" max="20" step="0.1" value="5"></div>
+            <div class="param"><label>Depth (Amt)</label><input type="range" id="lfoDepth" min="0" max="1000" step="10" value="0"></div>
             <div class="param">
                 <label>Shape</label>
-                <select id="lfoShape">
-                    <option value="sine">Sine</option>
-                    <option value="square">Square</option>
-                </select>
+                <select id="lfoShape"><option value="sine">Sine</option><option value="square">Square</option></select>
             </div>
         </div>
 
@@ -267,50 +245,32 @@
                     <option value="notch">Notch</option>
                 </select>
             </div>
-            <div class="param">
-                <label>Cutoff</label>
-                <input type="range" id="cutoff" min="20" max="10000" step="10" value="2000">
-            </div>
-            <div class="param">
-                <label>Resonance</label>
-                <input type="range" id="res" min="0" max="20" step="0.1" value="5">
-            </div>
+            <div class="param"><label>Cutoff</label><input type="range" id="cutoff" min="20" max="10000" step="10" value="2000"></div>
+            <div class="param"><label>Resonance</label><input type="range" id="res" min="0" max="20" step="0.1" value="5"></div>
         </div>
 
         <div class="module">
             <div class="module-header"><span class="module-title">ADSR</span></div>
-            <div class="param">
-                <label>Attack</label>
-                <input type="range" id="attack" min="0.01" max="1" step="0.01" value="0.05">
-            </div>
-            <div class="param">
-                <label>Decay</label>
-                <input type="range" id="decay" min="0.01" max="1" step="0.01" value="0.3">
-            </div>
-            <div class="param">
-                <label>Sustain</label>
-                <input type="range" id="sustain" min="0" max="1" step="0.01" value="0.5">
-            </div>
-            <div class="param">
-                <label>Release</label>
-                <input type="range" id="release" min="0.1" max="3" step="0.1" value="0.8">
-            </div>
+            <div class="param"><label>Attack</label><input type="range" id="attack" min="0.01" max="1" step="0.01" value="0.05"></div>
+            <div class="param"><label>Decay</label><input type="range" id="decay" min="0.01" max="1" step="0.01" value="0.3"></div>
+            <div class="param"><label>Sustain</label><input type="range" id="sustain" min="0" max="1" step="0.01" value="0.5"></div>
+            <div class="param"><label>Release</label><input type="range" id="release" min="0.1" max="3" step="0.1" value="0.8"></div>
         </div>
 
         <div class="module">
             <div class="module-header"><span class="module-title">Master</span></div>
             <div class="param">
-                <label>Volume</label>
-                <input type="range" id="vol" min="0" max="1" step="0.01" value="0.6">
+                <label>Color Theme</label>
+                <select id="themeSelect">
+                    <option value="#ff0055">Hot Pink</option>
+                    <option value="#00ff41">Matrix Green</option>
+                    <option value="#00f3ff">Cyber Blue</option>
+                    <option value="#ffb000">Retro Amber</option>
+                    <option value="#bc13fe">Neon Purple</option>
+                </select>
             </div>
-            <div class="param">
-                <label>Echo Time</label>
-                <input type="range" id="dTime" min="0" max="1" step="0.05" value="0.3">
-            </div>
-            <div class="param">
-                <label>Echo Mix</label>
-                <input type="range" id="dMix" min="0" max="0.7" step="0.05" value="0.2">
-            </div>
+            <div class="param"><label>Volume</label><input type="range" id="vol" min="0" max="1" step="0.01" value="0.6"></div>
+            <div class="param"><label>Echo Mix</label><input type="range" id="dMix" min="0" max="0.7" step="0.05" value="0.2"></div>
         </div>
 
     </div>
@@ -329,11 +289,9 @@
         brown: audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate)
     };
 
-    // Generate White
     const wData = buffers.white.getChannelData(0);
     for (let i=0; i<bufferSize; i++) wData[i] = Math.random() * 2 - 1;
 
-    // Generate Pink
     const pData = buffers.pink.getChannelData(0);
     let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
     for (let i=0; i<bufferSize; i++) {
@@ -348,7 +306,6 @@
         b6 = white * 0.115926;
     }
 
-    // Generate Brown
     const brData = buffers.brown.getChannelData(0);
     let lastOut = 0;
     for (let i=0; i<bufferSize; i++) {
@@ -362,16 +319,12 @@
     const analyser = audioCtx.createAnalyser();
     analyser.fftSize = 2048;
 
-    // Delay Loop
     const delayNode = audioCtx.createDelay(5.0);
     const delayFeedback = audioCtx.createGain();
     const delayWet = audioCtx.createGain();
     
-    // Wire up Master Chain
     masterGain.connect(analyser);
     analyser.connect(audioCtx.destination);
-
-    // Wire up Delay Loop
     delayNode.connect(delayFeedback);
     delayFeedback.connect(delayNode);
     delayNode.connect(delayWet);
@@ -379,42 +332,43 @@
 
     // --- UI ELEMENTS ---
     const ui = {
-        // Oscillator
         wave: document.getElementById('waveType'),
         octave: document.getElementById('octave'),
         semitone: document.getElementById('semitone'),
         detune: document.getElementById('detune'),
-        // Noise
         noiseMute: document.getElementById('noiseMute'),
         noiseType: document.getElementById('noiseType'),
         noiseLvl: document.getElementById('noiseLvl'),
-        // LFO
         lfoTarget: document.getElementById('lfoTarget'),
         lfoSpeed: document.getElementById('lfoSpeed'),
         lfoDepth: document.getElementById('lfoDepth'),
         lfoShape: document.getElementById('lfoShape'),
-        // Filter
         filterBypass: document.getElementById('filterBypass'),
         filterType: document.getElementById('filterType'),
         cutoff: document.getElementById('cutoff'),
         res: document.getElementById('res'),
-        // Env
         atk: document.getElementById('attack'),
         dec: document.getElementById('decay'),
         sus: document.getElementById('sustain'),
         rel: document.getElementById('release'),
-        // Master
         vol: document.getElementById('vol'),
-        dTime: document.getElementById('dTime'),
-        dMix: document.getElementById('dMix')
+        dMix: document.getElementById('dMix'),
+        themeSelect: document.getElementById('themeSelect')
     };
 
-    // State
-    const activeNotes = {};
+    let activeNotes = {};
     let isNoiseOn = true;
     let isFilterOn = true;
+    let currentAccentColor = '#ff0055'; // Variable to track JS line color
 
-    // Toggle Listeners
+    // --- THEME LOGIC ---
+    ui.themeSelect.addEventListener('change', (e) => {
+        const newColor = e.target.value;
+        currentAccentColor = newColor;
+        // Update CSS Variables for buttons/sliders
+        document.documentElement.style.setProperty('--accent', newColor);
+    });
+
     ui.noiseMute.addEventListener('click', () => {
         isNoiseOn = !isNoiseOn;
         ui.noiseMute.textContent = isNoiseOn ? "ON" : "MUTED";
@@ -428,20 +382,17 @@
     });
 
     // --- AUDIO ENGINE ---
-
     function noteOn(baseFreq, keyElem) {
         if (audioCtx.state === 'suspended') audioCtx.resume();
-        if (activeNotes[baseFreq]) return; // Anti-glitch
+        if (activeNotes[baseFreq]) return;
 
         const now = audioCtx.currentTime;
         keyElem.classList.add('active');
 
-        // 1. Calculate Frequency
         const octMult = Math.pow(2, parseInt(ui.octave.value));
         const semiMult = Math.pow(2, parseInt(ui.semitone.value) / 12);
         const finalFreq = (baseFreq * octMult * semiMult) + parseInt(ui.detune.value);
 
-        // 2. Sources
         const osc = audioCtx.createOscillator();
         osc.type = ui.wave.value;
         osc.frequency.setValueAtTime(finalFreq, now);
@@ -451,13 +402,9 @@
         noiseSrc.loop = true;
         
         const noiseGain = audioCtx.createGain();
-        // Check Mute State
         const nVol = isNoiseOn ? parseFloat(ui.noiseLvl.value) : 0;
         noiseGain.gain.setValueAtTime(nVol, now);
 
-        // 3. Filter (or Bypass)
-        // Even if bypassed, we keep the node in chain but open it up, or route around.
-        // Routing around is cleaner for true bypass.
         const filter = audioCtx.createBiquadFilter();
         const useFilter = isFilterOn;
         
@@ -465,14 +412,8 @@
             filter.type = ui.filterType.value;
             filter.frequency.setValueAtTime(parseFloat(ui.cutoff.value), now);
             filter.Q.setValueAtTime(parseFloat(ui.res.value), now);
-        } else {
-            // If bypassed, we act as a pass-through
-            // We set it to Allpass or just don't connect it? 
-            // Let's just create it but set it to do nothing effectively?
-            // Better: Conditional routing below.
         }
 
-        // 4. LFO
         const lfo = audioCtx.createOscillator();
         const lfoGain = audioCtx.createGain();
         lfo.type = ui.lfoShape.value;
@@ -482,34 +423,22 @@
         lfo.connect(lfoGain);
         lfo.start();
 
-        // Apply LFO
         const target = ui.lfoTarget.value;
-        if (target === 'filter' && useFilter) {
-            lfoGain.connect(filter.frequency);
-        } else if (target === 'pitch') {
-            lfoGain.connect(osc.frequency);
-        }
+        if (target === 'filter' && useFilter) lfoGain.connect(filter.frequency);
+        else if (target === 'pitch') lfoGain.connect(osc.frequency);
 
-        // 5. Envelope (VCA)
         const env = audioCtx.createGain();
-        const atk = parseFloat(ui.atk.value);
-        const dec = parseFloat(ui.dec.value);
-        const sus = parseFloat(ui.sus.value);
-        const rel = parseFloat(ui.rel.value);
         const vol = parseFloat(ui.vol.value);
-
         env.gain.setValueAtTime(0, now);
-        env.gain.linearRampToValueAtTime(vol, now + atk);
-        env.gain.exponentialRampToValueAtTime((vol * sus) + 0.001, now + atk + dec);
+        env.gain.linearRampToValueAtTime(vol, now + parseFloat(ui.atk.value));
+        env.gain.exponentialRampToValueAtTime((vol * parseFloat(ui.sus.value)) + 0.001, now + parseFloat(ui.atk.value) + parseFloat(ui.dec.value));
 
-        // 6. Routing
         if (useFilter) {
             osc.connect(filter);
             noiseSrc.connect(noiseGain);
             noiseGain.connect(filter);
             filter.connect(env);
         } else {
-            // Bypass Filter: Connect sources directly to Envelope
             osc.connect(env);
             noiseSrc.connect(noiseGain);
             noiseGain.connect(env);
@@ -517,40 +446,30 @@
 
         env.connect(masterGain);
         env.connect(delayNode);
-
-        // Global FX update
-        delayNode.delayTime.value = ui.dTime.value;
         delayFeedback.gain.value = 0.4; 
         delayWet.gain.value = ui.dMix.value;
 
         osc.start();
         noiseSrc.start();
-
-        activeNotes[baseFreq] = { osc, noiseSrc, env, lfo, keyElem, startTime: now };
+        activeNotes[baseFreq] = { osc, noiseSrc, env, lfo, keyElem };
     }
 
     function noteOff(baseFreq) {
         const n = activeNotes[baseFreq];
         if (!n) return;
-
         const now = audioCtx.currentTime;
         const rel = parseFloat(ui.rel.value);
-
-        // Release Phase
         n.env.gain.cancelScheduledValues(now);
         n.env.gain.setValueAtTime(n.env.gain.value, now);
         n.env.gain.exponentialRampToValueAtTime(0.001, now + rel);
-
-        // Stop Oscillators
         n.osc.stop(now + rel);
         n.noiseSrc.stop(now + rel);
         n.lfo.stop(now + rel);
-
         n.keyElem.classList.remove('active');
         delete activeNotes[baseFreq];
     }
 
-    // --- KEYBOARD BUILDER ---
+    // --- KEYBOARD ---
     const keysContainer = document.getElementById('keyboard');
     const notes = [
         {f: 130.8, t:'w'}, {f: 138.6, t:'b'}, {f: 146.8, t:'w'}, {f: 155.6, t:'b'},
@@ -558,8 +477,7 @@
         {f: 207.7, t:'b'}, {f: 220.0, t:'w'}, {f: 233.1, t:'b'}, {f: 246.9, t:'w'},
         {f: 261.6, t:'w'}, {f: 277.2, t:'b'}, {f: 293.7, t:'w'}, {f: 311.1, t:'b'},
         {f: 329.6, t:'w'}, {f: 349.2, t:'w'}, {f: 370.0, t:'b'}, {f: 392.0, t:'w'},
-        {f: 415.3, t:'b'}, {f: 440.0, t:'w'}, {f: 466.2, t:'b'}, {f: 493.9, t:'w'},
-        {f: 523.3, t:'w'}
+        {f: 415.3, t:'b'}, {f: 440.0, t:'w'}, {f: 466.2, t:'b'}, {f: 493.9, t:'w'}, {f: 523.3, t:'w'}
     ];
 
     notes.forEach(note => {
@@ -582,16 +500,17 @@
         canvas.width = canvas.clientWidth;
         canvas.height = canvas.clientHeight;
         
-        ctx.fillStyle = '#000';
+        ctx.fillStyle = '#000'; // Hardcoded Black Background
         ctx.fillRect(0,0,canvas.width, canvas.height);
         
         ctx.lineWidth = 2;
-        ctx.strokeStyle = '#ff0055';
-        ctx.beginPath();
+        ctx.strokeStyle = currentAccentColor; // Dynamic line color
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = currentAccentColor;
         
+        ctx.beginPath();
         const sliceWidth = canvas.width / dataArray.length;
         let x = 0;
-        
         for(let i=0; i < dataArray.length; i++) {
             const v = dataArray[i] / 128.0;
             const y = v * (canvas.height/2);
@@ -600,9 +519,9 @@
         }
         ctx.lineTo(canvas.width, canvas.height/2);
         ctx.stroke();
+        ctx.shadowBlur = 0;
     }
     draw();
-
 </script>
 </body>
 </html>
