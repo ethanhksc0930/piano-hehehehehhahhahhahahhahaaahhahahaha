@@ -131,6 +131,19 @@
             padding: 2px;
         }
 
+        .reset-btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 8px;
+            padding: 4px;
+            cursor: pointer;
+            border-radius: 3px;
+            margin-top: 5px;
+            transition: 0.2s;
+        }
+        .reset-btn:hover { background: var(--accent); color: white; }
+
         .keyboard {
             display: flex;
             justify-content: center;
@@ -209,7 +222,7 @@
         <div class="module">
             <div class="module-header">
                 <span class="module-title">Osc 2</span>
-                <button id="osc2Power" class="toggle-btn active">ON</button>
+                <button id="osc2Power" class="toggle-btn muted">OFF</button>
             </div>
             <div class="param">
                 <label>Wave</label>
@@ -303,6 +316,7 @@
             </div>
             <div class="param"><label>Volume</label><input type="range" id="vol" min="0" max="1" step="0.01" value="0.5"></div>
             <div class="param"><label>Echo Mix</label><input type="range" id="dMix" min="0" max="0.7" step="0.05" value="0.2"></div>
+            <button id="resetAll" class="reset-btn">RESET ALL</button>
         </div>
     </div>
 
@@ -393,7 +407,8 @@
         rel: document.getElementById('release'),
         vol: document.getElementById('vol'),
         dMix: document.getElementById('dMix'),
-        themeSelect: document.getElementById('themeSelect')
+        themeSelect: document.getElementById('themeSelect'),
+        resetAll: document.getElementById('resetAll')
     };
 
     let activeNotes = {};
@@ -401,7 +416,7 @@
     let isFilterOn = true;
     let isLfoOn = true;
     let isOsc1On = true;
-    let isOsc2On = true;
+    let isOsc2On = false; // Set OFF by default
     let currentAccentColor = '#ff0055';
 
     ui.themeSelect.addEventListener('change', (e) => {
@@ -438,6 +453,39 @@
         isLfoOn = !isLfoOn;
         ui.lfoPower.textContent = isLfoOn ? "ON" : "OFF";
         ui.lfoPower.className = isLfoOn ? "toggle-btn active" : "toggle-btn muted";
+    });
+
+    // Reset Functionality
+    ui.resetAll.addEventListener('click', () => {
+        // Reset Sliders
+        ui.octave.value = 0; ui.octave2.value = 0;
+        ui.semitone.value = 0; ui.semitone2.value = 0;
+        ui.detune.value = 0; ui.detune2.value = 5;
+        ui.noiseLvl.value = 0.05;
+        ui.lfoSpeed.value = 5; ui.lfoDepth.value = 200;
+        ui.cutoff.value = 2000; ui.res.value = 5;
+        ui.atk.value = 0.05; ui.dec.value = 0.3;
+        ui.sus.value = 0.5; ui.rel.value = 0.8;
+        ui.vol.value = 0.5; ui.dMix.value = 0.2;
+
+        // Reset Selects
+        ui.wave.value = 'sawtooth';
+        ui.wave2.value = 'square';
+        ui.noiseType.value = 'white';
+        ui.lfoTarget.value = 'filter';
+        ui.lfoShape.value = 'sine';
+        ui.filterType.value = 'lowpass';
+
+        // Update Displays
+        ui.octaveVal.textContent = "(0)";
+        ui.octaveVal2.textContent = "(0)";
+
+        // Reset Toggles
+        isOsc1On = true; ui.osc1Power.textContent = "ON"; ui.osc1Power.className = "toggle-btn active";
+        isOsc2On = false; ui.osc2Power.textContent = "OFF"; ui.osc2Power.className = "toggle-btn muted";
+        isNoiseOn = true; ui.noiseMute.textContent = "ON"; ui.noiseMute.className = "toggle-btn active";
+        isFilterOn = true; ui.filterBypass.textContent = "ACTIVE"; ui.filterBypass.className = "toggle-btn active";
+        isLfoOn = true; ui.lfoPower.textContent = "ON"; ui.lfoPower.className = "toggle-btn active";
     });
 
     function noteOn(baseFreq, keyElem) {
